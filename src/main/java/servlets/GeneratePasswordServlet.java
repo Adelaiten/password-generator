@@ -1,5 +1,4 @@
-import org.jtwig.JtwigModel;
-import org.jtwig.JtwigTemplate;
+import com.google.gson.Gson;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -7,31 +6,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
-@WebServlet(name = "simpleServlet", urlPatterns = {"/"}, loadOnStartup = 1)
-public class SampleHttp extends HttpServlet {
-
+@WebServlet(name = "dupa", urlPatterns = {"/password"}, loadOnStartup = 1)
+public class GeneratePasswordServlet extends HttpServlet {
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        JtwigTemplate template = JtwigTemplate.classpathTemplate("twig/index.twig");
-
-
-        JtwigModel model = JtwigModel.newModel();
-        response.getWriter().write(template.render(model));
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest request,  HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request,  HttpServletResponse response) throws ServletException, IOException {
         final String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         String password = "";
+        List<String> list = new ArrayList<>();
         password = generatePassword(ALPHABET, password);
+        list.add(password);
+        String json = new Gson().toJson(list);
 
-        JtwigTemplate template = JtwigTemplate.classpathTemplate("twig/index.twig");
-
-
-        JtwigModel model = JtwigModel.newModel();
-        model.with("password", password);
-        response.getWriter().write(template.render(model));
+        response.getWriter().write(json);
     }
 
     private String generatePassword(String ALPHABET, String password) {
