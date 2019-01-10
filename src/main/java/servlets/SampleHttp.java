@@ -35,24 +35,32 @@ public class SampleHttp extends HttpServlet {
     }
 
     private String generatePassword(String ALPHABET, String password) {
-        for(int i = 0; i < 9; i++){
-            int rollNumberCase = (int) (Math.random() * 10);
-            if(rollNumberCase > 5) {
-                int rollNumberSign = (int) (Math.random() * 10);
-                if(rollNumberSign > 5) {
-                    int numberAt = (int) ((Math.random() * 10) + 3) *2;
+        final int PASSWORD_LENGTH = 9;
+        final int ALPHABET_INDEX_MULTIPLIER = 10;
+        final int ALPHABET_INDEX_MULTIPLIER_2 = 2;
+        final int ALPHABET_INDEX_ADD = 3;
+        final int DIGIT_MULTIPLIER = 10;
+        final int IF_MULTIPLIER = 10;
+        final int CASE_CONDITION = 5;
+        final int SIGN_CONDITION = 5;
+        for(int i = 0; i < PASSWORD_LENGTH; i++){
+            int rollNumberCase = (int) (Math.random() * IF_MULTIPLIER);
+            if(rollNumberCase > CASE_CONDITION) {
+                int rollNumberSign = (int) (Math.random() * IF_MULTIPLIER);
+                if(rollNumberSign >= SIGN_CONDITION) {
+                    int numberAt = (int) ((Math.random() * ALPHABET_INDEX_MULTIPLIER) + ALPHABET_INDEX_ADD) *ALPHABET_INDEX_MULTIPLIER_2;
                     password += String.valueOf(ALPHABET.charAt(numberAt));
                 }else {
-                    String digit = String.valueOf((int) (Math.random() * 10));
+                    String digit = String.valueOf((int) (Math.random() * DIGIT_MULTIPLIER));
                     password+=digit;
                 }
             }else {
-                int rollNumberSign = (int) (Math.random() * 10);
-                if(rollNumberSign > 5) {
-                    int numberAt = (int) ((Math.random() * 10) + 3) *2;
+                int rollNumberSign = (int) (Math.random() * IF_MULTIPLIER);
+                if(rollNumberSign >= SIGN_CONDITION) {
+                    int numberAt = (int) ((Math.random() * ALPHABET_INDEX_MULTIPLIER) + ALPHABET_INDEX_ADD) *ALPHABET_INDEX_MULTIPLIER_2;
                     password += String.valueOf(ALPHABET.charAt(numberAt)).toLowerCase();
                 }else {
-                    String digit = String.valueOf((int) (Math.random() * 10));
+                    String digit = String.valueOf((int) (Math.random() * DIGIT_MULTIPLIER));
                     password+=digit;
                 }
             }
